@@ -1,0 +1,43 @@
+syntax = "proto3";
+package video.pb;
+option go_package="video/api/pb;proto";
+import "google/protobuf/empty.proto";
+import "page.proto";
+
+message BarrageResponse {
+  int64 id = 1;
+  string userId = 2;
+  int64 veId = 3;
+  int64 second = 4;
+  string content = 5;
+  bool isVisible = 6;
+  string createdAt = 7;
+}
+
+message GetBarragesRequest{
+  int64 userId = 1;
+  int64 veId = 2;
+  int64 startSecond = 3;
+  int64 endSecond = 4;
+  bool isVisible = 5;
+  PageRequest page = 6;
+}
+
+message GetBarrageResponse{
+  repeated BarrageResponse barrages = 1;
+}
+
+message UpdateBarrageRequest{
+  int64 id = 1;
+  int64 userId = 2;
+  int64 veId = 3;
+  int64 second = 4;
+  bool isVisible = 5;
+}
+
+service Barrage{
+  rpc Create(UpdateBarrageRequest) returns (BarrageResponse);
+  rpc Update(UpdateBarrageRequest) returns (google.protobuf.Empty);
+  rpc Delete(UpdateBarrageRequest) returns (google.protobuf.Empty);
+  rpc Get(GetBarragesRequest) returns (GetBarrageResponse);
+}

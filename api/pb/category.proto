@@ -1,0 +1,32 @@
+syntax = "proto3";
+package video.pb;
+option go_package="video/api/pb;proto";
+import "google/protobuf/empty.proto";
+
+message CategoryResponse {
+  int64 id = 1;
+  string name = 2;
+  string icon = 3;
+}
+
+message GetCategoryRequest{
+  bool isVisible = 1;
+}
+
+message GetCategoryResponse{
+  repeated CategoryResponse region = 1;
+}
+
+message UpdateCategoryRequest{
+  int64 id = 1;
+  string name = 2;
+  string icon = 3;
+  bool isVisible = 4;
+}
+
+service Category{
+  rpc Create(UpdateCategoryRequest) returns (CategoryResponse);
+  rpc Update(UpdateCategoryRequest) returns (google.protobuf.Empty);
+  rpc Delete(UpdateCategoryRequest) returns (google.protobuf.Empty);
+  rpc Get(GetCategoryRequest) returns (GetCategoryResponse);
+}
