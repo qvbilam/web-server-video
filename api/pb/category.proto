@@ -22,6 +22,8 @@ message UpdateCategoryRequest{
   string name = 2;
   string icon = 3;
   bool isVisible = 4;
+  int64 parentId = 5;
+  int64 level = 6;
 }
 
 service Category{
