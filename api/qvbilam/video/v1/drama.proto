@@ -1,0 +1,73 @@
+syntax = "proto3";
+package video.pb;
+option go_package="video/api/qvbilam/video/v1;videoV1";
+import "google/protobuf/empty.proto";
+import "category.proto";
+import "region.proto";
+import "api/qvbilam/page/v1/page.proto";
+
+message DramaResponse{
+  int64 id = 1;
+  CategoryResponse category = 2;
+  RegionResponse region = 3;
+  string name = 4;
+  string introduction = 5;
+  string icon = 6;
+  string horizontalIcon = 7;
+  float score = 8;
+  int64 episodeCount = 9;
+  int64 favoriteCount = 10;
+  int64 likeCount = 11;
+  int64 playCount = 12;
+  int64 barrageCount = 13;
+  bool is_new = 14;
+  bool is_hot = 15;
+  bool is_end = 16;
+  bool isVisible = 17;
+}
+
+message UpdateDramaRequest{
+  int64 id = 1;
+  int64 categoryId = 2;
+  int64 regionId = 3;
+  string name = 4;
+  string introduction = 5;
+  string icon = 6;
+  string horizontalIcon = 7;
+  float score = 8;
+  int64 episodeCount = 9;
+  int64 favoriteCount = 10;
+  int64 likeCount = 11;
+  int64 playCount = 12;
+  int64 barrageCount = 13;
+  bool is_new = 14;
+  bool is_hot = 15;
+  bool is_end = 16;
+  bool isVisible = 17;
+  int64 year = 18;
+  int64 quarter = 19;
+}
+
+message DramaListResponse{
+  int64 total = 1;
+  repeated DramaResponse drama = 2;
+}
+
+message SearchDramaRequest{
+  repeated int64 id = 1;
+  string keyword = 2;
+  string sort = 3;
+  int64 year = 5;
+  int64 quarter = 6;
+  bool isVisible = 7;
+  pagePb.v1.PageRequest page = 8;
+}
+
+
+service Drama{
+  rpc Create(UpdateDramaRequest) returns (DramaResponse);
+  rpc Update(UpdateDramaRequest) returns (google.protobuf.Empty);
+  rpc Delete(UpdateDramaRequest) returns (google.protobuf.Empty);
+  rpc GetDetail(SearchDramaRequest) returns (DramaResponse);
+  rpc Get(SearchDramaRequest) returns (DramaListResponse);
+}

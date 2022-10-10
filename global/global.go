@@ -2,7 +2,8 @@ package global
 
 import (
 	ut "github.com/go-playground/universal-translator"
-	proto "video/api/pb"
+	userProto "video/api/qvbilam/user/v1"
+	proto "video/api/qvbilam/video/v1"
 	"video/config"
 )
 
@@ -10,10 +11,9 @@ var (
 	Trans        ut.Translator // 表单验证
 	ServerConfig *config.ServerConfig
 
-	BarrageServerClient  proto.BarrageClient
 	CategoryServerClient proto.CategoryClient
-	EpisodesServerClient proto.EpisodesClient
+	DramaServerClient    proto.DramaClient
 	RegionServerClient   proto.RegionClient
 	VideoServerClient    proto.VideoClient
-	UserServerClient     proto.UserClient
+	UserServerClient     userProto.UserClient
 )

@@ -1,0 +1,102 @@
+syntax = "proto3";
+package video.pb;
+option go_package="video/api/qvbilam/video/v1;videoV1";
+import "google/protobuf/empty.proto";
+import "category.proto";
+import "api/qvbilam/page/v1/page.proto";
+
+message VideoResponse {
+  int64 id = 1;
+  int64 fileId = 2;
+  CategoryResponse category = 3;
+  VideoUserResponse user = 4;
+  string name = 5;
+  string introduction = 6;
+  string url = 7;
+  string icon = 8;
+  string horizontal_icon = 9;
+  float score = 10;
+  int64 favorite_count = 11;
+  int64 like_count = 12;
+  int64 play_count = 13;
+  int64 barrage_count = 14;
+  bool is_horizontal = 15;
+  bool is_recommend = 16;
+  bool is_hot = 17;
+  int64 created_time = 18;
+}
+
+message UpdateVideoRequest{
+  int64 id = 1;
+  int64 fileId = 2;
+  int64 categoryId = 3;
+  int64 userId = 4;
+  string name = 5;
+  string introduction = 6;
+  string url = 7;
+  string icon = 8;
+  string horizontalIcon = 9;
+  float score = 10;
+  int64 favoriteCount = 11;
+  int64 likeCount = 12;
+  int64 playCount = 13;
+  int64 barrageCount = 14;
+  bool isRecommend = 15;
+  bool isHot = 16;
+  bool isVisible = 17;
+  int64 dramaId = 18;
+  int64 episode = 19;
+}
+
+message SearchVideoRequest{
+  repeated int64 id = 1;
+  int64 fileId = 2;
+  int64 userId = 3;
+  int64 regionId = 4;
+  int64 categoryId = 5;
+  string keyword = 6;
+  string sort = 7;
+  bool isRecommend = 8;
+  bool isEnd = 9;
+  bool isNew = 10;
+  bool isHot = 11;
+  bool isVisible = 12;
+  int64 totalCountMin = 13;
+  int64 totalCountMax = 14;
+  int64 favoriteCountMin = 15;
+  int64 favoriteCountMax = 16;
+  int64 likeCountMin = 17;
+  int64 likeCountMax = 18;
+  int64 playCountMin = 19;
+  int64 playCountMax = 20;
+  int64 barrageCountMin = 21;
+  int64 barrageCountMax = 22;
+  int64 page = 23;
+  int64 perPage = 24;
+}
+
+message GetVideoRequest{
+  int64 id = 1;
+  SearchVideoRequest search = 2;
+  pagePb.v1.PageRequest page = 3;
+}
+
+message VideosResponse{
+  int64 total = 1;
+  repeated VideoResponse videos = 2;
+}
+
+message VideoUserResponse{
+  int64 id = 1;
+  string nickname = 3;
+  string avatar = 4;
+  string gender = 5;
+}
+
+service Video{
+  rpc Create (UpdateVideoRequest) returns (VideoResponse); // 创建视频
+  rpc Update (UpdateVideoRequest) returns (google.protobuf.Empty); // 更新视频
+  rpc Delete (UpdateVideoRequest) returns (google.protobuf.Empty); // 删除视频
+  rpc Get(SearchVideoRequest) returns (VideosResponse); // 视频列表
+  rpc GetDetail(GetVideoRequest) returns (VideoResponse); // 视频详情
+}

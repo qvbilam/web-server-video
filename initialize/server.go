@@ -1,14 +1,14 @@
 package initialize
 
 import (
-	"context"
 	"fmt"
 	retry "github.com/grpc-ecosystem/go-grpc-middleware/retry"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"time"
-	proto "video/api/pb"
+	userProto "video/api/qvbilam/user/v1"
+	proto "video/api/qvbilam/video/v1"
 	"video/global"
 )
 
@@ -58,17 +58,14 @@ func (s *serverClientConfig) initVideoServer() {
 	if err != nil {
 		zap.S().Fatalf("%s dial error: %s", global.ServerConfig.VideoServerClient.Name, err)
 	}
-	// 弹幕
-	barrageClient := proto.NewBarrageClient(conn)
-	global.BarrageServerClient = barrageClient
 
 	// 分类
 	categoryClient := proto.NewCategoryClient(conn)
 	global.CategoryServerClient = categoryClient
 
 	// 剧集
-	episodesClient := proto.NewEpisodesClient(conn)
-	global.EpisodesServerClient = episodesClient
+	dramaClient := proto.NewDramaClient(conn)
+	global.DramaServerClient = dramaClient
 
 	// 区域
 	regionClient := proto.NewRegionClient(conn)
@@ -90,11 +87,11 @@ func (s *serverClientConfig) initUserServer() {
 		zap.S().Fatalf("%s dial error: %s", global.ServerConfig.UserServerConfig.Name, err)
 	}
 
-	userClient := proto.NewUserClient(conn)
+	userClient := userProto.NewUserClient(conn)
 	global.UserServerClient = userClient
-	u, err := global.UserServerClient.Detail(context.Background(), &proto.GetUserRequest{Id: 1})
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(u)
+	//u, err := global.UserServerClient.Detail(context.Background(), &userProto.GetUserRequest{Id: 1})
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
+	//fmt.Println(u)
 }

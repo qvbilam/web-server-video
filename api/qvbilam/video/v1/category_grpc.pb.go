@@ -4,7 +4,7 @@
 // - protoc             v3.19.4
 // source: category.proto
 
-package proto
+package videoV1
 
 import (
 	context "context"

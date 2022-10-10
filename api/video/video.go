@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"video/api"
-	proto "video/api/pb"
+	proto "video/api/qvbilam/video/v1"
 	"video/global"
 	"video/validate"
 )
@@ -60,7 +60,7 @@ func List(ctx *gin.Context) {
 		Page:             request.Page,
 		PerPage:          request.PerPage,
 	})
-	
+
 	if err != nil {
 		api.HandleGrpcErrorToHttp(ctx, err)
 		return

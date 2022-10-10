@@ -1,6 +1,6 @@
 syntax = "proto3";
 package video.pb;
-option go_package="video/api/pb;proto";
+option go_package="video/api/qvbilam/video/v1;videoV1";
 import "google/protobuf/empty.proto";
 
 message RegionResponse {
