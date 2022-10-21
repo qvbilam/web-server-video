@@ -11,19 +11,20 @@ message VideoResponse {
   CategoryResponse category = 3;
   VideoUserResponse user = 4;
   string name = 5;
-  string introduction = 6;
+  string introduce = 6;
   string url = 7;
   string icon = 8;
-  string horizontal_icon = 9;
+  string horizontalIcon = 9;
   float score = 10;
-  int64 favorite_count = 11;
-  int64 like_count = 12;
-  int64 play_count = 13;
-  int64 barrage_count = 14;
-  bool is_horizontal = 15;
-  bool is_recommend = 16;
-  bool is_hot = 17;
-  int64 created_time = 18;
+  int64 favoriteCount = 11;
+  int64 totalCount = 12;
+  int64 likeCount = 13;
+  int64 playCount = 14;
+  int64 barrageCount = 15;
+  bool isHorizontal = 16;
+  bool isRecommend = 17;
+  bool isHot = 18;
+  int64 createdTime = 19;
 }
 
 message UpdateVideoRequest{
@@ -32,7 +33,7 @@ message UpdateVideoRequest{
   int64 categoryId = 3;
   int64 userId = 4;
   string name = 5;
-  string introduction = 6;
+  string introduce = 6;
   string url = 7;
   string icon = 8;
   string horizontalIcon = 9;
@@ -41,11 +42,12 @@ message UpdateVideoRequest{
   int64 likeCount = 12;
   int64 playCount = 13;
   int64 barrageCount = 14;
-  bool isRecommend = 15;
-  bool isHot = 16;
-  bool isVisible = 17;
-  int64 dramaId = 18;
-  int64 episode = 19;
+  int64 totalCount = 15;
+  bool isRecommend = 16;
+  bool isHot = 17;
+  bool isVisible = 18;
+  int64 dramaId = 19;
+  int64 episode = 20;
 }
 
 message SearchVideoRequest{

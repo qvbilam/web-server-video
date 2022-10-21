@@ -11,31 +11,99 @@ import (
 	"video/global"
 )
 
+const responseFieldData = "data"
+const responseFieldMessage = "msg"
+const responseFieldCode = "code"
+const responseFiledErrors = "errors"
+
+// Success 成功
+func Success(ctx *gin.Context, data interface{}, message string) {
+	ctx.JSON(http.StatusOK, gin.H{
+		responseFieldData:    data,
+		responseFieldMessage: message,
+	})
+}
+
+func SuccessNotMessage(ctx *gin.Context, data interface{}) {
+	Success(ctx, data, "")
+}
+
+// SuccessNotContent 成功无返回内容
+func SuccessNotContent(ctx *gin.Context) {
+	ctx.JSON(http.StatusNoContent, gin.H{})
+}
+
+// Error 错误
+func Error(ctx *gin.Context, message string) {
+	ErrorCustom(ctx, message, nil, -1)
+}
+
+// ErrorCustom 自定义错误
+func ErrorCustom(ctx *gin.Context, message string, errors interface{}, code int) {
+	ctx.JSON(http.StatusBadRequest, gin.H{
+		responseFieldCode:    code,
+		responseFieldMessage: message,
+		responseFiledErrors:  errors,
+	})
+}
+
+// ErrorUnauthorized 未登陆或登陆信息失效
+func ErrorUnauthorized(ctx *gin.Context, message string) {
+	ctx.JSON(http.StatusUnauthorized, gin.H{
+		responseFieldMessage: message,
+	})
+}
+
+// ErrorForbidden 无权限
+func ErrorForbidden(ctx *gin.Context, message string) {
+	ctx.JSON(http.StatusForbidden, gin.H{
+		responseFieldMessage: message,
+	})
+}
+
+func ErrorAlreadyExists(ctx *gin.Context, message string) {
+	ctx.JSON(http.StatusFound, gin.H{
+		responseFieldMessage: message,
+	})
+}
+
+// ErrorNotfound 没有找到
+func ErrorNotfound(ctx *gin.Context, message string) {
+	ctx.JSON(http.StatusNotFound, gin.H{
+		responseFieldMessage: message,
+	})
+}
+
+// ErrorInternal 服务器错误
+func ErrorInternal(ctx *gin.Context, message string) {
+	ctx.JSON(http.StatusInternalServerError, gin.H{
+		responseFieldMessage: message,
+	})
+	return
+}
+
+// ErrorUnprocessableEntity 请求格式正确,有语义错误
+func ErrorUnprocessableEntity(ctx *gin.Context, errors interface{}) {
+	ctx.JSON(http.StatusBadRequest, gin.H{
+		responseFiledErrors: errors,
+	})
+}
+
 // HandleGrpcErrorToHttp 处理 grpc 错误转换成 http 错误
 func HandleGrpcErrorToHttp(ctx *gin.Context, err error) {
 	if err != nil {
 		if s, ok := status.FromError(err); ok {
 			switch s.Code() {
 			case codes.NotFound:
-				ctx.JSON(http.StatusNotFound, gin.H{
-					"msg": s.Message(),
-				})
+				ErrorNotfound(ctx, s.Message())
 			case codes.Internal:
-				ctx.JSON(http.StatusInternalServerError, gin.H{
-					"msg": fmt.Sprintf("服务错误: %d; 信息: %s", s.Code(), err.Error()),
-				})
+				ErrorInternal(ctx, fmt.Sprintf("服务错误: %d; 信息: %s", s.Code(), err.Error()))
 			case codes.InvalidArgument:
-				ctx.JSON(http.StatusBadRequest, gin.H{
-					"msg": fmt.Sprintf("参数错误: %d; 信息: %s", s.Code(), err.Error()),
-				})
+				Error(ctx, fmt.Sprintf("参数错误: %d; 信息: %s", s.Code(), err.Error()))
 			case codes.Unavailable:
-				ctx.JSON(http.StatusBadRequest, gin.H{
-					"msg": fmt.Sprintf("用户服务: %d; 信息: %s", s.Code(), err.Error()),
-				})
+				Error(ctx, fmt.Sprintf("用户服务: %d; 信息: %s", s.Code(), err.Error()))
 			default:
-				ctx.JSON(http.StatusInternalServerError, gin.H{
-					"msg": fmt.Sprintf("其他错误: %d; 信息: %s", s.Code(), err.Error()),
-				})
+				ErrorInternal(ctx, fmt.Sprintf("其他错误: %d; 信息: %s", s.Code(), err.Error()))
 			}
 
 			return
@@ -48,16 +116,12 @@ func HandleValidateError(ctx *gin.Context, err error) {
 	// 如果翻译错误
 	errs, ok := err.(validator.ValidationErrors)
 	if !ok { // 直接返回错误信息
-		ctx.JSON(http.StatusOK, gin.H{
-			"msg": err.Error(),
-		})
+		Error(ctx, err.Error())
 		return
 	}
 
 	// 翻译成功后返回翻译之后的错误信息
-	ctx.JSON(http.StatusBadRequest, gin.H{
-		"error": removeTopStruct(errs.Translate(global.Trans)), // 使用全局变量 trans 翻译中文内容
-	})
+	ErrorUnprocessableEntity(ctx, removeTopStruct(errs.Translate(global.Trans)))
 	return
 }
 
@@ -68,7 +132,7 @@ func removeTopStruct(fields map[string]string) map[string]string {
 	for field, err := range fields {
 		// 获取第一个 . 出现的位置
 		position := strings.Index(field, ".")
-		fmt.Println(field, position)
+		//fmt.Println(field, position)
 
 		// 获取截取后的 key 名
 		key := field[position+1:]

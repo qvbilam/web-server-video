@@ -23,6 +23,7 @@ func InitRouters() *gin.Engine {
 	videoRouter.InitRegionRouter(apiRouter)
 	videoRouter.InitCategoryRouter(apiRouter)
 	videoRouter.InitBarrageRouter(apiRouter)
+	videoRouter.InitDramaRouter(apiRouter)
 
 	return router
 }
