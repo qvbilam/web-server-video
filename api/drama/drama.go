@@ -23,6 +23,7 @@ func List(ctx *gin.Context) {
 	response, err := global.DramaServerClient.Get(context.Background(), requestProto)
 	if err != nil {
 		api.HandleGrpcErrorToHttp(ctx, err)
+		return
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{

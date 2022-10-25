@@ -4,7 +4,14 @@ option go_package="video/api/qvbilam/video/v1;videoV1";
 import "google/protobuf/empty.proto";
 import "category.proto";
 import "region.proto";
+import "video.proto";
 import "api/qvbilam/page/v1/page.proto";
+
+message EpisodeResponse{
+  int64 id = 1;
+  int64 episode = 2;
+  VideoResponse video = 3;
+}
 
 message DramaResponse{
   int64 id = 1;
@@ -26,6 +33,7 @@ message DramaResponse{
   bool is_hot = 17;
   bool is_end = 18;
   bool isVisible = 19;
+  repeated EpisodeResponse episode = 20;
 }
 
 message UpdateDramaRequest{
