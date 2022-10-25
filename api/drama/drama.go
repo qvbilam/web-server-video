@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"video/api"
+	Pageproto "video/api/qvbilam/page/v1"
 	proto "video/api/qvbilam/video/v1"
 	"video/global"
 	"video/validate"
@@ -31,21 +32,27 @@ func List(ctx *gin.Context) {
 }
 
 func searchRequestToProto(search *validate.DramaSearch) *proto.SearchDramaRequest {
-	p := &proto.SearchDramaRequest{}
+	r := &proto.SearchDramaRequest{}
 	if search.Keyword != "" {
-		p.Keyword = search.Keyword
+		r.Keyword = search.Keyword
 	}
 	if search.Sort != "" {
-		p.Sort = search.Sort
+		r.Sort = search.Sort
 	}
 	if search.IsVisible != nil {
-		p.IsVisible = *search.IsVisible
+		r.IsVisible = *search.IsVisible
+	}
+
+	p := &Pageproto.PageRequest{
+		Page:    1,
+		PerPage: 100,
 	}
 	if search.Page != 0 {
-		p.Page.Page = search.Page
+		p.Page = search.Page
 	}
 	if search.PerPage != 0 {
-		p.Page.PerPage = search.PerPage
+		p.PerPage = search.PerPage
 	}
-	return p
+	r.Page = p
+	return r
 }

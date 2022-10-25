@@ -2,4 +2,5 @@
 GET {{video-host}}{{video-port}}/video?keyword=fate&page=1&per_page=1
 
 ### 剧集列表
-GET {{video-host}}{{video-port}}/drama?keyword=fate&page=1&per_page=1
+GET {{video-host}}{{video-port}}/drama
+#GET {{video-host}}{{video-port}}/drama?keyword=fate&page=1&per_page=1
