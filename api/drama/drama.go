@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"video/api"
-	Pageproto "video/api/qvbilam/page/v1"
+	PageProto "video/api/qvbilam/page/v1"
 	proto "video/api/qvbilam/video/v1"
 	"video/global"
 	"video/validate"
@@ -44,7 +44,7 @@ func searchRequestToProto(search *validate.DramaSearch) *proto.SearchDramaReques
 		r.IsVisible = *search.IsVisible
 	}
 
-	p := &Pageproto.PageRequest{
+	p := &PageProto.PageRequest{
 		Page:    1,
 		PerPage: 100,
 	}

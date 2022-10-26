@@ -1,6 +1,24 @@
 ### 视频列表
-GET {{video-host}}{{video-port}}/video?keyword=fate&page=1&per_page=1
+GET {{video-host}}{{video-port}}/video
+
+### 添加视频
+POST {{video-host}}{{video-port}}/video
+
+### 修改视频
+PUT {{video-host}}{{video-port}}/video
+
+### 删除视频
+DELETE {{video-host}}{{video-port}}/video
 
 ### 剧集列表
 #GET {{video-host}}{{video-port}}/drama
 GET {{video-host}}{{video-port}}/drama?keyword=fate&page=1&per_page=1
+
+### 创建剧
+POST {{video-host}}{{video-port}}/drama
+
+### 修改剧
+PUT {{video-host}}{{video-port}}/drama
+
+### 删除剧
+DELETE {{video-host}}{{video-port}}/drama
