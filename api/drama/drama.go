@@ -3,11 +3,11 @@ package drama
 import (
 	"context"
 	"github.com/gin-gonic/gin"
-	"net/http"
 	"video/api"
 	PageProto "video/api/qvbilam/page/v1"
 	proto "video/api/qvbilam/video/v1"
 	"video/global"
+	"video/resource"
 	"video/validate"
 )
 
@@ -18,7 +18,6 @@ func List(ctx *gin.Context) {
 		return
 	}
 
-	//global.VideoServerCl(context.Background(), &proto.Dr)
 	requestProto := searchRequestToProto(&request)
 	response, err := global.DramaServerClient.Get(context.Background(), requestProto)
 	if err != nil {
@@ -26,10 +25,44 @@ func List(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"total": response.Total,
-		"data":  response.Drama,
+	r := resource.DramaResource{}
+	api.SuccessList(ctx, r.Collection(response), response.Total)
+}
+
+func Create(ctx *gin.Context) {
+	request := validate.DramaUpdate{}
+	if err := ctx.BindQuery(&request); err != nil {
+		api.HandleValidateError(ctx, err)
+		return
+	}
+
+	res, err := global.DramaServerClient.Create(context.Background(), &proto.UpdateDramaRequest{
+		CategoryId:     request.CategoryId,
+		RegionId:       request.RegionId,
+		Name:           request.Name,
+		Introduce:      request.Introduce,
+		Icon:           request.Icon,
+		HorizontalIcon: request.HorizontalIcon,
+		TotalCount:     request.TotalCount,
 	})
+	if err != nil {
+		api.HandleGrpcErrorToHttp(ctx, err)
+		return
+	}
+
+	api.SuccessNotMessage(ctx, gin.H{"id": res.Id})
+}
+
+func Update(ctx *gin.Context) {
+	//paramId := ctx.Param("id")
+	//id, _ := strconv.Atoi(paramId)
+
+	request := validate.DramaUpdate{}
+	if err := ctx.BindQuery(&request); err != nil {
+		api.HandleValidateError(ctx, err)
+		return
+	}
+	//res, err := global.DramaServerClient.Update(context.Background(), &proto.UpdateDramaRequest{})
 }
 
 func searchRequestToProto(search *validate.DramaSearch) *proto.SearchDramaRequest {

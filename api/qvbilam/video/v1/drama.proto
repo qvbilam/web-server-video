@@ -29,11 +29,12 @@ message DramaResponse{
   int64 barrageCount = 13;
   int64 totalCount = 14;
   bool isRecommend = 15;
-  bool is_new = 16;
-  bool is_hot = 17;
-  bool is_end = 18;
+  bool isNew = 16;
+  bool isHot = 17;
+  bool isEnd = 18;
   bool isVisible = 19;
   repeated EpisodeResponse episode = 20;
+  int64 createdTime = 21;
 }
 
 message UpdateDramaRequest{

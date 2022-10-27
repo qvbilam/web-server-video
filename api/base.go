@@ -15,12 +15,20 @@ const responseFieldData = "data"
 const responseFieldMessage = "msg"
 const responseFieldCode = "code"
 const responseFiledErrors = "errors"
+const responseFiledListTotal = "total"
 
 // Success 成功
 func Success(ctx *gin.Context, data interface{}, message string) {
 	ctx.JSON(http.StatusOK, gin.H{
 		responseFieldData:    data,
 		responseFieldMessage: message,
+	})
+}
+
+func SuccessList(ctx *gin.Context, data interface{}, total int64) {
+	ctx.JSON(http.StatusOK, gin.H{
+		responseFiledListTotal: total,
+		responseFieldData:      data,
 	})
 }
 
