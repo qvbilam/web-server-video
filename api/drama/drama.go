@@ -3,6 +3,7 @@ package drama
 import (
 	"context"
 	"github.com/gin-gonic/gin"
+	"strconv"
 	"video/api"
 	PageProto "video/api/qvbilam/page/v1"
 	proto "video/api/qvbilam/video/v1"
@@ -30,7 +31,7 @@ func List(ctx *gin.Context) {
 }
 
 func Create(ctx *gin.Context) {
-	request := validate.DramaUpdate{}
+	request := validate.DramaCreate{}
 	if err := ctx.BindQuery(&request); err != nil {
 		api.HandleValidateError(ctx, err)
 		return
@@ -54,15 +55,24 @@ func Create(ctx *gin.Context) {
 }
 
 func Update(ctx *gin.Context) {
-	//paramId := ctx.Param("id")
-	//id, _ := strconv.Atoi(paramId)
+	paramId := ctx.Param("id")
+	id, _ := strconv.Atoi(paramId)
 
 	request := validate.DramaUpdate{}
-	if err := ctx.BindQuery(&request); err != nil {
+	if err := ctx.Bind(&request); err != nil {
 		api.HandleValidateError(ctx, err)
 		return
 	}
-	//res, err := global.DramaServerClient.Update(context.Background(), &proto.UpdateDramaRequest{})
+
+	updateRequest := UpdateRequestToProto(&request)
+	updateRequest.Id = int64(id)
+
+	if _, err := global.DramaServerClient.Update(context.Background(), updateRequest); err != nil {
+		api.HandleGrpcErrorToHttp(ctx, err)
+		return
+	}
+
+	api.SuccessNotContent(ctx)
 }
 
 func searchRequestToProto(search *validate.DramaSearch) *proto.SearchDramaRequest {
@@ -88,5 +98,38 @@ func searchRequestToProto(search *validate.DramaSearch) *proto.SearchDramaReques
 		p.PerPage = search.PerPage
 	}
 	r.Page = p
+	return r
+}
+
+func UpdateRequestToProto(update *validate.DramaUpdate) *proto.UpdateDramaRequest {
+	r := &proto.UpdateDramaRequest{}
+
+	if update.CategoryId != nil {
+		r.CategoryId = *update.CategoryId
+	}
+
+	if update.RegionId != nil {
+		r.RegionId = *update.RegionId
+	}
+
+	if update.Name != nil {
+		r.Name = *update.Name
+	}
+
+	if update.Introduce != nil {
+		r.Introduce = *update.Introduce
+	}
+	if update.Icon != nil {
+		r.Icon = *update.Icon
+	}
+
+	if update.HorizontalIcon != nil {
+		r.HorizontalIcon = *update.HorizontalIcon
+	}
+
+	if update.TotalCount != nil {
+		r.TotalCount = *update.TotalCount
+	}
+
 	return r
 }

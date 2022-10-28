@@ -1,6 +1,6 @@
 package validate
 
-type DramaUpdate struct {
+type DramaCreate struct {
 	RegionId       int64  `form:"region_id" json:"region_id" binding:"omitempty,numeric"`
 	CategoryId     int64  `form:"category_id" json:"category_id" binding:"omitempty,numeric"`
 	Name           string `form:"name" json:"name" binding:"required,min=5,max=100"`
@@ -8,6 +8,16 @@ type DramaUpdate struct {
 	Icon           string `form:"icon" json:"icon" binding:"omitempty,url"`
 	HorizontalIcon string `form:"horizontal_icon" json:"horizontal_icon" binding:"omitempty,url"`
 	TotalCount     int64  `form:"total_count" json:"total_count" binding:"omitempty,min=0,max=999999"`
+}
+
+type DramaUpdate struct {
+	RegionId       *int64  `form:"region_id" json:"region_id" binding:"omitempty,numeric"`
+	CategoryId     *int64  `form:"category_id" json:"category_id" binding:"omitempty,numeric"`
+	Name           *string `form:"name" json:"name" binding:"omitempty,min=5,max=100"`
+	Introduce      *string `form:"introduce" json:"introduce" binding:"omitempty,min=0,max=100"`
+	Icon           *string `form:"icon" json:"icon" binding:"omitempty,url"`
+	HorizontalIcon *string `form:"horizontal_icon" json:"horizontal_icon" binding:"omitempty,url"`
+	TotalCount     *int64  `form:"total_count" json:"total_count" binding:"omitempty,min=0,max=999999"`
 }
 
 type DramaSearch struct {

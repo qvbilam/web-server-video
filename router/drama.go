@@ -10,8 +10,8 @@ func InitDramaRouter(Router *gin.RouterGroup) {
 	{
 		DramaRouter.GET("", drama.List)
 		//DramaRouter.GET("/:id", drama.Detail)
-		//DramaRouter.POST("", drama.Create)
-		//DramaRouter.PUT("/:id", drama.Update)
+		DramaRouter.POST("", drama.Create)
+		DramaRouter.PUT("/:id", drama.Update)
 		//DramaRouter.DELETE("/:id", drama.Delete)
 	}
 }

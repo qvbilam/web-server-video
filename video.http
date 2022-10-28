@@ -9,6 +9,11 @@ POST {{video-host}}{{video-port}}/drama
 PUT {{video-host}}{{video-port}}/drama/1
 Content-Type: application/json
 
+{
+  "name": "某科学的超电磁炮",
+  "introduce": ""
+}
+
 
 ### 删除剧
 DELETE {{video-host}}{{video-port}}/drama
