@@ -38,13 +38,13 @@ func Create(ctx *gin.Context) {
 	}
 
 	res, err := global.DramaServerClient.Create(context.Background(), &proto.UpdateDramaRequest{
-		CategoryId:     request.CategoryId,
-		RegionId:       request.RegionId,
-		Name:           request.Name,
-		Introduce:      request.Introduce,
-		Icon:           request.Icon,
-		HorizontalIcon: request.HorizontalIcon,
-		TotalCount:     request.TotalCount,
+		CategoryId:      request.CategoryId,
+		RegionId:        request.RegionId,
+		Name:            request.Name,
+		Introduce:       request.Introduce,
+		Cover:           request.Cover,
+		HorizontalCover: request.HorizontalCover,
+		TotalCount:      request.TotalCount,
 	})
 	if err != nil {
 		api.HandleGrpcErrorToHttp(ctx, err)
@@ -119,12 +119,12 @@ func UpdateRequestToProto(update *validate.DramaUpdate) *proto.UpdateDramaReques
 	if update.Introduce != nil {
 		r.Introduce = *update.Introduce
 	}
-	if update.Icon != nil {
-		r.Icon = *update.Icon
+	if update.Cover != nil {
+		r.Cover = *update.Cover
 	}
 
-	if update.HorizontalIcon != nil {
-		r.HorizontalIcon = *update.HorizontalIcon
+	if update.HorizontalCover != nil {
+		r.HorizontalCover = *update.HorizontalCover
 	}
 
 	if update.TotalCount != nil {

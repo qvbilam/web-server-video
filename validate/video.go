@@ -1,14 +1,23 @@
 package validate
 
 type VideoCreate struct {
-	DramaId        int64  `form:"drama_id" json:"drama_id" binding:"omitempty,numeric"`
-	Episode        int64  `form:"episode" json:"episode" binding:"omitempty,numeric"`
-	FileId         int64  `form:"file_id" json:"file_id" binding:"required,numeric,min=1"`
-	CategoryId     int64  `form:"category_id" json:"category_id" binding:"required,numeric,min=1"`
-	Name           string `form:"name" json:"name" binding:"required,min=3,max=100"`
-	Introduce      string `form:"introduce" json:"introduce" binding:"omitempty,max=999"`
-	Icon           string `form:"icon" json:"icon" binding:"required,url"`
-	HorizontalIcon string `form:"horizontal_icon" json:"horizontal_icon" binding:"omitempty,url"`
+	Episode         int64  `form:"episode" json:"episode" binding:"omitempty,numeric"`
+	FileId          int64  `form:"file_id" json:"file_id" binding:"required,numeric,min=1"`
+	CategoryId      int64  `form:"category_id" json:"category_id" binding:"required,numeric,min=1"`
+	Name            string `form:"name" json:"name" binding:"required,min=3,max=100"`
+	Introduce       string `form:"introduce" json:"introduce" binding:"omitempty,max=999"`
+	Cover           string `form:"cover" json:"cover" binding:"required,url"`
+	HorizontalCover string `form:"horizontal_cover" json:"horizontal_cover" binding:"omitempty,url"`
+}
+
+type VideoUpdate struct {
+	Episode         int64  `form:"episode" json:"episode" binding:"omitempty,numeric"`
+	FileId          int64  `form:"file_id" json:"file_id" binding:"omitempty,numeric,min=1"`
+	CategoryId      int64  `form:"category_id" json:"category_id" binding:"omitempty,numeric,min=1"`
+	Name            string `form:"name" json:"name" binding:"omitempty,min=3,max=100"`
+	Introduce       string `form:"introduce" json:"introduce" binding:"omitempty,max=999"`
+	Cover           string `form:"cover" json:"cover" binding:"omitempty,url"`
+	HorizontalCover string `form:"horizontal_cover" json:"horizontal_cover" binding:"omitempty,url"`
 }
 
 type VideoList struct {

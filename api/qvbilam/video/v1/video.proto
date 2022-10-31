@@ -12,8 +12,8 @@ message VideoResponse {
   VideoUserResponse user = 4;
   string name = 5;
   string introduce = 6;
-  string icon = 7;
-  string horizontalIcon = 8;
+  string cover = 7;
+  string horizontalCover = 8;
   float score = 9;
   int64 favoriteCount = 10;
   int64 likeCount = 11;
@@ -32,8 +32,8 @@ message UpdateVideoRequest{
   int64 userId = 4;
   string name = 5;
   string introduce = 6;
-  string icon = 7;
-  string horizontalIcon = 8;
+  string cover = 7;
+  string horizontalCover = 8;
   float score = 9;
   int64 favoriteCount = 10;
   int64 likeCount = 11;

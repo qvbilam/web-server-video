@@ -6,7 +6,7 @@ type DramaResource struct {
 	Id          int64              `json:"id"`
 	Name        string             `json:"name"`
 	Introduce   string             `json:"introduce"`
-	Icon        string             `json:"icon"`
+	Cover       string             `json:"cover"`
 	User        *UserResource      `json:"user"`
 	Episode     *[]EpisodeResource `json:"episode"`
 	CreatedTime int64              `json:"created_time"`
@@ -25,7 +25,7 @@ func (r *DramaResource) Collection(response *videoV1.DramaListResponse) *[]Drama
 					FileId:    e.Video.FileId,
 					Name:      e.Video.Name,
 					Introduce: e.Video.Introduce,
-					Icon:      e.Video.Icon,
+					Cover:     e.Video.Cover,
 				},
 			})
 		}
@@ -34,7 +34,7 @@ func (r *DramaResource) Collection(response *videoV1.DramaListResponse) *[]Drama
 			Id:          drama.Id,
 			Name:        drama.Name,
 			Introduce:   drama.Introduce,
-			Icon:        drama.Icon,
+			Cover:       drama.Cover,
 			User:        nil,
 			Episode:     &episodes,
 			CreatedTime: drama.CreatedTime,

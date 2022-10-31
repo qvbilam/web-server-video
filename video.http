@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### 修改合集
-PUT {{video-host}}{{video-port}}/drama/3G
+PUT {{video-host}}{{video-port}}/drama/3
 Content-Type: application/json
 
 {
@@ -31,10 +31,19 @@ POST {{video-host}}{{video-port}}/drama/3/episode
 Content-Type: application/json
 
 {
-  "episode": 0,
+  "episode": 2,
   "category_id": 1,
   "file_id": 1,
-  "name": "测试分集",
+  "name": "测试分集2",
   "introduce": "分集简介",
-  "icon": "https://www.baidu.com"
+  "cover": "https://www.baidu.com"
+}
+
+### 修改分集
+PUT {{video-host}}{{video-port}}/drama/3/episode/6
+Content-Type: application/json
+
+{
+  "name": "测试重复分集",
+  "episode": 41
 }

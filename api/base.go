@@ -105,13 +105,15 @@ func HandleGrpcErrorToHttp(ctx *gin.Context, err error) {
 			case codes.NotFound:
 				ErrorNotfound(ctx, s.Message())
 			case codes.Internal:
-				ErrorInternal(ctx, fmt.Sprintf("服务错误: %d; 信息: %s", s.Code(), err.Error()))
+				ErrorInternal(ctx, s.Message())
 			case codes.InvalidArgument:
-				Error(ctx, fmt.Sprintf("参数错误: %d; 信息: %s", s.Code(), err.Error()))
+				Error(ctx, s.Message())
 			case codes.Unavailable:
-				Error(ctx, fmt.Sprintf("用户服务: %d; 信息: %s", s.Code(), err.Error()))
+				Error(ctx, s.Message())
+			case codes.AlreadyExists:
+				Error(ctx, s.Message())
 			default:
-				ErrorInternal(ctx, fmt.Sprintf("其他错误: %d; 信息: %s", s.Code(), err.Error()))
+				ErrorInternal(ctx, fmt.Sprintf(s.Message()))
 			}
 
 			return

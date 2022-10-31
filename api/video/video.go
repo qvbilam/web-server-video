@@ -23,16 +23,16 @@ func Create(ctx *gin.Context) {
 		return
 	}
 	res, err := global.VideoServerClient.Create(context.Background(), &proto.UpdateVideoRequest{
-		FileId:         request.FileId,
-		CategoryId:     request.CategoryId,
-		UserId:         userId,
-		Name:           request.Name,
-		Introduce:      request.Introduce,
-		Icon:           request.Icon,
-		HorizontalIcon: request.HorizontalIcon,
-		IsVisible:      true,
-		DramaId:        int64(dramaId),
-		Episode:        request.Episode,
+		FileId:          request.FileId,
+		CategoryId:      request.CategoryId,
+		UserId:          userId,
+		Name:            request.Name,
+		Introduce:       request.Introduce,
+		Cover:           request.Cover,
+		HorizontalCover: request.HorizontalCover,
+		IsVisible:       true,
+		DramaId:         int64(dramaId),
+		Episode:         request.Episode,
 	})
 	if err != nil {
 		api.HandleGrpcErrorToHttp(ctx, err)
@@ -43,7 +43,36 @@ func Create(ctx *gin.Context) {
 }
 
 func Update(ctx *gin.Context) {
+	paramDramaId := ctx.Param("id")
+	dramaId, _ := strconv.Atoi(paramDramaId)
+	paramVideoId := ctx.Param("videoId")
+	videoId, _ := strconv.Atoi(paramVideoId)
 
+	request := validate.VideoUpdate{}
+	if err := ctx.ShouldBind(&request); err != nil {
+		api.HandleValidateError(ctx, err)
+		return
+	}
+	pr := proto.UpdateVideoRequest{
+		Id:              int64(videoId),
+		FileId:          request.FileId,
+		CategoryId:      request.CategoryId,
+		UserId:          0,
+		Name:            request.Name,
+		Introduce:       request.Introduce,
+		Cover:           request.Cover,
+		HorizontalCover: request.HorizontalCover,
+		IsVisible:       true,
+		DramaId:         int64(dramaId),
+		Episode:         request.Episode,
+	}
+
+	if _, err := global.VideoServerClient.Update(context.Background(), &pr); err != nil {
+		api.HandleGrpcErrorToHttp(ctx, err)
+		return
+	}
+
+	api.SuccessNotContent(ctx)
 }
 
 func Delete(ctx *gin.Context) {

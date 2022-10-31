@@ -17,5 +17,7 @@ func InitDramaRouter(Router *gin.RouterGroup) {
 
 		// 剧集
 		DramaRouter.POST("/:id/episode", video.Create)
+		DramaRouter.PUT("/:id/episode/:videoId", video.Update)
+		DramaRouter.DELETE("/:id/episode/:videoId", video.Delete)
 	}
 }

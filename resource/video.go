@@ -5,6 +5,6 @@ type VideoResource struct {
 	FileId      int64  `json:"file_id"`
 	Name        string `json:"name"`
 	Introduce   string `json:"introduce"`
-	Icon        string `json:"icon"`
+	Cover       string `json:"cover"`
 	CreatedTime int64  `json:"created_time"`
 }

@@ -19,8 +19,8 @@ message DramaResponse{
   RegionResponse region = 3;
   string name = 4;
   string introduce = 5;
-  string icon = 6;
-  string horizontalIcon = 7;
+  string cover = 6;
+  string horizontalCover = 7;
   float score = 8;
   int64 episodeCount = 9;
   int64 favoriteCount = 10;
@@ -43,8 +43,8 @@ message UpdateDramaRequest{
   int64 regionId = 3;
   string name = 4;
   string introduce = 5;
-  string icon = 6;
-  string horizontalIcon = 7;
+  string cover = 6;
+  string horizontalCover = 7;
   float score = 8;
   int64 episodeCount = 9;
   int64 favoriteCount = 10;
