@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"video/api/drama"
+	"video/api/video"
 )
 
 func InitDramaRouter(Router *gin.RouterGroup) {
@@ -13,5 +14,8 @@ func InitDramaRouter(Router *gin.RouterGroup) {
 		DramaRouter.POST("", drama.Create)
 		DramaRouter.PUT("/:id", drama.Update)
 		//DramaRouter.DELETE("/:id", drama.Delete)
+
+		// 剧集
+		DramaRouter.POST("/:id/episode", video.Create)
 	}
 }

@@ -12,19 +12,17 @@ message VideoResponse {
   VideoUserResponse user = 4;
   string name = 5;
   string introduce = 6;
-  string url = 7;
-  string icon = 8;
-  string horizontalIcon = 9;
-  float score = 10;
-  int64 favoriteCount = 11;
-  int64 totalCount = 12;
-  int64 likeCount = 13;
-  int64 playCount = 14;
-  int64 barrageCount = 15;
-  bool isHorizontal = 16;
-  bool isRecommend = 17;
-  bool isHot = 18;
-  int64 createdTime = 19;
+  string icon = 7;
+  string horizontalIcon = 8;
+  float score = 9;
+  int64 favoriteCount = 10;
+  int64 likeCount = 11;
+  int64 playCount = 12;
+  int64 barrageCount = 13;
+  bool isHorizontal = 14;
+  bool isRecommend = 15;
+  bool isHot = 16;
+  int64 createdTime = 17;
 }
 
 message UpdateVideoRequest{
@@ -34,20 +32,18 @@ message UpdateVideoRequest{
   int64 userId = 4;
   string name = 5;
   string introduce = 6;
-  string url = 7;
-  string icon = 8;
-  string horizontalIcon = 9;
-  float score = 10;
-  int64 favoriteCount = 11;
-  int64 likeCount = 12;
-  int64 playCount = 13;
-  int64 barrageCount = 14;
-  int64 totalCount = 15;
-  bool isRecommend = 16;
-  bool isHot = 17;
-  bool isVisible = 18;
-  int64 dramaId = 19;
-  int64 episode = 20;
+  string icon = 7;
+  string horizontalIcon = 8;
+  float score = 9;
+  int64 favoriteCount = 10;
+  int64 likeCount = 11;
+  int64 playCount = 12;
+  int64 barrageCount = 13;
+  bool isRecommend = 14;
+  bool isHot = 15;
+  bool isVisible = 16;
+  int64 dramaId = 17;
+  int64 episode = 18;
 }
 
 message SearchVideoRequest{

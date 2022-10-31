@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"video/api"
 	proto "video/api/qvbilam/video/v1"
 	"video/global"
@@ -12,7 +13,33 @@ import (
 )
 
 func Create(ctx *gin.Context) {
+	var userId int64
+	userId = 1
+	paramDramaId := ctx.Param("id")
+	dramaId, _ := strconv.Atoi(paramDramaId)
+	request := validate.VideoCreate{}
+	if err := ctx.Bind(&request); err != nil {
+		api.HandleValidateError(ctx, err)
+		return
+	}
+	res, err := global.VideoServerClient.Create(context.Background(), &proto.UpdateVideoRequest{
+		FileId:         request.FileId,
+		CategoryId:     request.CategoryId,
+		UserId:         userId,
+		Name:           request.Name,
+		Introduce:      request.Introduce,
+		Icon:           request.Icon,
+		HorizontalIcon: request.HorizontalIcon,
+		IsVisible:      true,
+		DramaId:        int64(dramaId),
+		Episode:        request.Episode,
+	})
+	if err != nil {
+		api.HandleGrpcErrorToHttp(ctx, err)
+		return
+	}
 
+	api.SuccessNotMessage(ctx, gin.H{"id": res.Id})
 }
 
 func Update(ctx *gin.Context) {

@@ -1,12 +1,20 @@
-### 剧集列表
+### 合集列表
 #GET {{video-host}}{{video-port}}/drama
 GET {{video-host}}{{video-port}}/drama?keyword=fate&page=1&per_page=1
 
-### 创建剧
+### 创建合集
 POST {{video-host}}{{video-port}}/drama
+Content-Type: application/json
 
-### 修改剧
-PUT {{video-host}}{{video-port}}/drama/1
+{
+  "category_id": 1,
+  "region_id": 1,
+  "name": "新剧",
+  "introduce": "新剧简介"
+}
+
+### 修改合集
+PUT {{video-host}}{{video-port}}/drama/3G
 Content-Type: application/json
 
 {
@@ -14,6 +22,19 @@ Content-Type: application/json
   "introduce": ""
 }
 
-
-### 删除剧
+### 删除合集
 DELETE {{video-host}}{{video-port}}/drama
+
+
+### 添加分集
+POST {{video-host}}{{video-port}}/drama/3/episode
+Content-Type: application/json
+
+{
+  "episode": 0,
+  "category_id": 1,
+  "file_id": 1,
+  "name": "测试分集",
+  "introduce": "分集简介",
+  "icon": "https://www.baidu.com"
+}

@@ -32,7 +32,7 @@ func List(ctx *gin.Context) {
 
 func Create(ctx *gin.Context) {
 	request := validate.DramaCreate{}
-	if err := ctx.BindQuery(&request); err != nil {
+	if err := ctx.Bind(&request); err != nil {
 		api.HandleValidateError(ctx, err)
 		return
 	}
