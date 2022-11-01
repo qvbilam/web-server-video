@@ -2,6 +2,7 @@ package drama
 
 import (
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"strconv"
 	"video/api"
@@ -54,6 +55,13 @@ func Create(ctx *gin.Context) {
 	api.SuccessNotMessage(ctx, gin.H{"id": res.Id})
 }
 
+func Detail(ctx *gin.Context) {
+	paramId := ctx.Param("id")
+	id, _ := strconv.Atoi(paramId)
+
+	fmt.Println(id)
+}
+
 func Update(ctx *gin.Context) {
 	paramId := ctx.Param("id")
 	id, _ := strconv.Atoi(paramId)
@@ -72,6 +80,16 @@ func Update(ctx *gin.Context) {
 		return
 	}
 
+	api.SuccessNotContent(ctx)
+}
+
+func Delete(ctx *gin.Context) {
+	paramId := ctx.Param("id")
+	id, _ := strconv.Atoi(paramId)
+	if _, err := global.DramaServerClient.Delete(context.Background(), &proto.UpdateDramaRequest{Id: int64(id)}); err != nil {
+		api.HandleGrpcErrorToHttp(ctx, err)
+		return
+	}
 	api.SuccessNotContent(ctx)
 }
 

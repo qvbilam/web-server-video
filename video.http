@@ -23,15 +23,18 @@ Content-Type: application/json
 }
 
 ### 删除合集
-DELETE {{video-host}}{{video-port}}/drama
+DELETE {{video-host}}{{video-port}}/drama/3
 
+
+### 获取分集列表
+GET {{video-host}}{{video-port}}/drama/3/video
 
 ### 添加分集
-POST {{video-host}}{{video-port}}/drama/3/episode
+POST {{video-host}}{{video-port}}/drama/3/video
 Content-Type: application/json
 
 {
-  "episode": 2,
+  "episode": 3,
   "category_id": 1,
   "file_id": 1,
   "name": "测试分集2",
@@ -40,10 +43,13 @@ Content-Type: application/json
 }
 
 ### 修改分集
-PUT {{video-host}}{{video-port}}/drama/3/episode/6
+PUT {{video-host}}{{video-port}}/drama/3/video/6
 Content-Type: application/json
 
 {
   "name": "测试重复分集",
   "episode": 41
 }
+
+### 删除分集
+DELETE {{video-host}}{{video-port}}/drama/3/video/6

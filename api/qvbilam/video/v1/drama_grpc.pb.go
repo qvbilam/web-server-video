@@ -26,7 +26,7 @@ type DramaClient interface {
 	Create(ctx context.Context, in *UpdateDramaRequest, opts ...grpc.CallOption) (*DramaResponse, error)
 	Update(ctx context.Context, in *UpdateDramaRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Delete(ctx context.Context, in *UpdateDramaRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
-	GetDetail(ctx context.Context, in *SearchDramaRequest, opts ...grpc.CallOption) (*DramaResponse, error)
+	Detail(ctx context.Context, in *SearchDramaRequest, opts ...grpc.CallOption) (*DramaResponse, error)
 	Get(ctx context.Context, in *SearchDramaRequest, opts ...grpc.CallOption) (*DramaListResponse, error)
 }
 
@@ -65,9 +65,9 @@ func (c *dramaClient) Delete(ctx context.Context, in *UpdateDramaRequest, opts .
 	return out, nil
 }
 
-func (c *dramaClient) GetDetail(ctx context.Context, in *SearchDramaRequest, opts ...grpc.CallOption) (*DramaResponse, error) {
+func (c *dramaClient) Detail(ctx context.Context, in *SearchDramaRequest, opts ...grpc.CallOption) (*DramaResponse, error) {
 	out := new(DramaResponse)
-	err := c.cc.Invoke(ctx, "/video.pb.Drama/GetDetail", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/video.pb.Drama/Detail", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -90,7 +90,7 @@ type DramaServer interface {
 	Create(context.Context, *UpdateDramaRequest) (*DramaResponse, error)
 	Update(context.Context, *UpdateDramaRequest) (*emptypb.Empty, error)
 	Delete(context.Context, *UpdateDramaRequest) (*emptypb.Empty, error)
-	GetDetail(context.Context, *SearchDramaRequest) (*DramaResponse, error)
+	Detail(context.Context, *SearchDramaRequest) (*DramaResponse, error)
 	Get(context.Context, *SearchDramaRequest) (*DramaListResponse, error)
 	mustEmbedUnimplementedDramaServer()
 }
@@ -108,8 +108,8 @@ func (UnimplementedDramaServer) Update(context.Context, *UpdateDramaRequest) (*e
 func (UnimplementedDramaServer) Delete(context.Context, *UpdateDramaRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
 }
-func (UnimplementedDramaServer) GetDetail(context.Context, *SearchDramaRequest) (*DramaResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetDetail not implemented")
+func (UnimplementedDramaServer) Detail(context.Context, *SearchDramaRequest) (*DramaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Detail not implemented")
 }
 func (UnimplementedDramaServer) Get(context.Context, *SearchDramaRequest) (*DramaListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
@@ -181,20 +181,20 @@ func _Drama_Delete_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Drama_GetDetail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Drama_Detail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SearchDramaRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DramaServer).GetDetail(ctx, in)
+		return srv.(DramaServer).Detail(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/video.pb.Drama/GetDetail",
+		FullMethod: "/video.pb.Drama/Detail",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DramaServer).GetDetail(ctx, req.(*SearchDramaRequest))
+		return srv.(DramaServer).Detail(ctx, req.(*SearchDramaRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -237,8 +237,8 @@ var Drama_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Drama_Delete_Handler,
 		},
 		{
-			MethodName: "GetDetail",
-			Handler:    _Drama_GetDetail_Handler,
+			MethodName: "Detail",
+			Handler:    _Drama_Detail_Handler,
 		},
 		{
 			MethodName: "Get",

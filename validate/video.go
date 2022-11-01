@@ -1,7 +1,7 @@
 package validate
 
 type VideoCreate struct {
-	Episode         int64  `form:"episode" json:"episode" binding:"omitempty,numeric"`
+	Episode         int64  `form:"episode" json:"episode" binding:"required,numeric"`
 	FileId          int64  `form:"file_id" json:"file_id" binding:"required,numeric,min=1"`
 	CategoryId      int64  `form:"category_id" json:"category_id" binding:"required,numeric,min=1"`
 	Name            string `form:"name" json:"name" binding:"required,min=3,max=100"`

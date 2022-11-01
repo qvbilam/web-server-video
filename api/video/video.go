@@ -76,11 +76,26 @@ func Update(ctx *gin.Context) {
 }
 
 func Delete(ctx *gin.Context) {
+	paramDramaId := ctx.Param("id")
+	dramaId, _ := strconv.Atoi(paramDramaId)
+	paramVideoId := ctx.Param("videoId")
+	videoId, _ := strconv.Atoi(paramVideoId)
 
+	if _, err := global.VideoServerClient.Delete(context.Background(), &proto.UpdateVideoRequest{DramaId: int64(dramaId), Id: int64(videoId)}); err != nil {
+		api.HandleGrpcErrorToHttp(ctx, err)
+		return
+	}
+	api.SuccessNotContent(ctx)
 }
 
 func Detail(ctx *gin.Context) {
+	paramDramaId := ctx.Param("id")
+	dramaId, _ := strconv.Atoi(paramDramaId)
+	res, err := global.DramaServerClient.Detail(context.Background(), &proto.SearchDramaRequest{
+		Id: int64(dramaId),
+	})
 
+	api.SuccessNotContent(ctx)
 }
 
 func List(ctx *gin.Context) {
