@@ -44,6 +44,7 @@ message UpdateVideoRequest{
   bool isVisible = 16;
   int64 dramaId = 17;
   int64 episode = 18;
+  string ip = 19;
 }
 
 message SearchVideoRequest{
@@ -91,10 +92,14 @@ message VideoUserResponse{
   string gender = 5;
 }
 
+
 service Video{
   rpc Create (UpdateVideoRequest) returns (VideoResponse); // 创建视频
   rpc Update (UpdateVideoRequest) returns (google.protobuf.Empty); // 更新视频
   rpc Delete (UpdateVideoRequest) returns (google.protobuf.Empty); // 删除视频
   rpc Get(SearchVideoRequest) returns (VideosResponse); // 视频列表
   rpc GetDetail(GetVideoRequest) returns (VideoResponse); // 视频详情
+  rpc Play(UpdateVideoRequest) returns (google.protobuf.Empty);
+  rpc Like(UpdateVideoRequest) returns (google.protobuf.Empty);
+  rpc Favorite(UpdateVideoRequest) returns (google.protobuf.Empty);
 }

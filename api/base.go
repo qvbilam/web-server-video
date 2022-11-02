@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"github.com/thinkeridea/go-extend/exnet"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"net/http"
@@ -113,7 +114,7 @@ func HandleGrpcErrorToHttp(ctx *gin.Context, err error) {
 			case codes.AlreadyExists:
 				Error(ctx, s.Message())
 			default:
-				ErrorInternal(ctx, fmt.Sprintf(s.Message()))
+				ErrorInternal(ctx, fmt.Sprintf("code: %d, message: %s", s.Code(), s.Message()))
 			}
 
 			return
@@ -151,4 +152,13 @@ func removeTopStruct(fields map[string]string) map[string]string {
 		res[key] = err
 	}
 	return res
+}
+
+func GetClientIP(ctx *gin.Context) string {
+	r := ctx.Request
+	ip := exnet.ClientPublicIP(r)
+	if ip == "" {
+		ip = exnet.ClientIP(r)
+	}
+	return ip
 }

@@ -56,10 +56,17 @@ func Create(ctx *gin.Context) {
 }
 
 func Detail(ctx *gin.Context) {
+	fmt.Printf("ip: %s\n", api.GetClientIP(ctx))
 	paramId := ctx.Param("id")
 	id, _ := strconv.Atoi(paramId)
+	res, err := global.DramaServerClient.Detail(context.Background(), &proto.SearchDramaRequest{Id: int64(id)})
+	if err != nil {
+		api.HandleGrpcErrorToHttp(ctx, err)
+		return
+	}
 
-	fmt.Println(id)
+	r := resource.DramaResource{}
+	api.SuccessNotMessage(ctx, r.Resource(res))
 }
 
 func Update(ctx *gin.Context) {

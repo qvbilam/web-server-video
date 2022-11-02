@@ -2,7 +2,6 @@ package video
 
 import (
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
@@ -89,12 +88,17 @@ func Delete(ctx *gin.Context) {
 }
 
 func Detail(ctx *gin.Context) {
-	paramDramaId := ctx.Param("id")
-	dramaId, _ := strconv.Atoi(paramDramaId)
-	res, err := global.DramaServerClient.Detail(context.Background(), &proto.SearchDramaRequest{
-		Id: int64(dramaId),
-	})
+	//paramDramaId := ctx.Param("id")
+	//dramaId, _ := strconv.Atoi(paramDramaId)
+	//res, err := global.DramaServerClient.Detail(context.Background(), &proto.SearchDramaRequest{
+	//	Id: int64(dramaId),
+	//})
+	//if err != nil {
+	//	api.HandleGrpcErrorToHttp(ctx, err)
+	//	return
+	//}
 
+	//api.SuccessNotMessage(ctx, res)
 	api.SuccessNotContent(ctx)
 }
 
@@ -106,14 +110,13 @@ func List(ctx *gin.Context) {
 	}
 
 	client := global.VideoServerClient
-	rsp, err := client.Get(context.Background(), HandleSearchRequest(&request))
+	res, err := client.Get(context.Background(), HandleSearchRequest(&request))
 
 	if err != nil {
 		api.HandleGrpcErrorToHttp(ctx, err)
 		return
 	}
-	fmt.Printf("%+v\n", request)
-	ctx.JSON(http.StatusOK, rsp)
+	ctx.JSON(http.StatusOK, res)
 }
 
 func HandleSearchRequest(request *validate.VideoList) *proto.SearchVideoRequest {

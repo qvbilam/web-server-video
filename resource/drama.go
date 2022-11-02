@@ -20,24 +20,45 @@ type DramaResource struct {
 	CreatedTime  int64              `json:"created_time"`
 }
 
+func (r *DramaResource) Resource(response *videoV1.DramaResponse) *DramaResource {
+	d := DramaResource{
+		Id:           response.Id,
+		Name:         response.Name,
+		Introduce:    response.Introduce,
+		Cover:        response.Cover,
+		User:         nil,
+		Score:        float64(response.Score),
+		NewEpisode:   response.NewEpisode,
+		PlayCount:    response.PlayCount,
+		BarrageCount: response.BarrageCount,
+		TotalCount:   response.TotalCount,
+		IsNew:        response.IsNew,
+		IsHot:        response.IsHot,
+		IsEnd:        response.IsEnd,
+		CreatedTime:  response.CreatedTime,
+	}
+	var episodes []EpisodeResource
+	for _, e := range response.Episode {
+		episodes = append(episodes, EpisodeResource{
+			Id:      e.Id,
+			Episode: e.Episode,
+			Video: VideoResource{
+				Id:          e.Video.Id,
+				FileId:      e.Video.FileId,
+				Name:        e.Video.Name,
+				Introduce:   e.Video.Introduce,
+				Cover:       e.Video.Cover,
+				CreatedTime: e.Video.CreatedTime,
+			},
+		})
+	}
+	d.Episode = &episodes
+	return &d
+}
+
 func (r *DramaResource) Collection(response *videoV1.DramaListResponse) *[]DramaResource {
 	var dramas []DramaResource
 	for _, drama := range response.Drama {
-		//var episodes []EpisodeResource
-		//for _, e := range drama.Episode {
-		//	episodes = append(episodes, EpisodeResource{
-		//		Id:      e.Id,
-		//		Episode: e.Episode,
-		//		Video: VideoResource{
-		//			Id:        e.Video.Id,
-		//			FileId:    e.Video.FileId,
-		//			Name:      e.Video.Name,
-		//			Introduce: e.Video.Introduce,
-		//			Cover:     e.Video.Cover,
-		//		},
-		//	})
-		//}
-
 		dramas = append(dramas, DramaResource{
 			Id:        drama.Id,
 			Name:      drama.Name,

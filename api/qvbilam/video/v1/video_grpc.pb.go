@@ -28,6 +28,9 @@ type VideoClient interface {
 	Delete(ctx context.Context, in *UpdateVideoRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	Get(ctx context.Context, in *SearchVideoRequest, opts ...grpc.CallOption) (*VideosResponse, error)
 	GetDetail(ctx context.Context, in *GetVideoRequest, opts ...grpc.CallOption) (*VideoResponse, error)
+	Play(ctx context.Context, in *UpdateVideoRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Like(ctx context.Context, in *UpdateVideoRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Favorite(ctx context.Context, in *UpdateVideoRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type videoClient struct {
@@ -83,6 +86,33 @@ func (c *videoClient) GetDetail(ctx context.Context, in *GetVideoRequest, opts .
 	return out, nil
 }
 
+func (c *videoClient) Play(ctx context.Context, in *UpdateVideoRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/video.pb.Video/Play", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *videoClient) Like(ctx context.Context, in *UpdateVideoRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/video.pb.Video/Like", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *videoClient) Favorite(ctx context.Context, in *UpdateVideoRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/video.pb.Video/Favorite", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // VideoServer is the server API for Video service.
 // All implementations must embed UnimplementedVideoServer
 // for forward compatibility
@@ -92,6 +122,9 @@ type VideoServer interface {
 	Delete(context.Context, *UpdateVideoRequest) (*emptypb.Empty, error)
 	Get(context.Context, *SearchVideoRequest) (*VideosResponse, error)
 	GetDetail(context.Context, *GetVideoRequest) (*VideoResponse, error)
+	Play(context.Context, *UpdateVideoRequest) (*emptypb.Empty, error)
+	Like(context.Context, *UpdateVideoRequest) (*emptypb.Empty, error)
+	Favorite(context.Context, *UpdateVideoRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedVideoServer()
 }
 
@@ -113,6 +146,15 @@ func (UnimplementedVideoServer) Get(context.Context, *SearchVideoRequest) (*Vide
 }
 func (UnimplementedVideoServer) GetDetail(context.Context, *GetVideoRequest) (*VideoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDetail not implemented")
+}
+func (UnimplementedVideoServer) Play(context.Context, *UpdateVideoRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Play not implemented")
+}
+func (UnimplementedVideoServer) Like(context.Context, *UpdateVideoRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Like not implemented")
+}
+func (UnimplementedVideoServer) Favorite(context.Context, *UpdateVideoRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Favorite not implemented")
 }
 func (UnimplementedVideoServer) mustEmbedUnimplementedVideoServer() {}
 
@@ -217,6 +259,60 @@ func _Video_GetDetail_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Video_Play_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateVideoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VideoServer).Play(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/video.pb.Video/Play",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VideoServer).Play(ctx, req.(*UpdateVideoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Video_Like_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateVideoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VideoServer).Like(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/video.pb.Video/Like",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VideoServer).Like(ctx, req.(*UpdateVideoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Video_Favorite_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateVideoRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(VideoServer).Favorite(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/video.pb.Video/Favorite",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(VideoServer).Favorite(ctx, req.(*UpdateVideoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Video_ServiceDesc is the grpc.ServiceDesc for Video service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -243,6 +339,18 @@ var Video_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetDetail",
 			Handler:    _Video_GetDetail_Handler,
+		},
+		{
+			MethodName: "Play",
+			Handler:    _Video_Play_Handler,
+		},
+		{
+			MethodName: "Like",
+			Handler:    _Video_Like_Handler,
+		},
+		{
+			MethodName: "Favorite",
+			Handler:    _Video_Favorite_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

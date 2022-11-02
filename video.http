@@ -25,6 +25,8 @@ Content-Type: application/json
 ### 删除合集
 DELETE {{video-host}}{{video-port}}/drama/3
 
+### 详情
+GET {{video-host}}{{video-port}}/drama/1
 
 ### 获取分集列表
 GET {{video-host}}{{video-port}}/drama/3/video
