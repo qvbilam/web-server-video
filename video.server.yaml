@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: video-web-server
+spec:
+  selector:
+    app: video-web-server
+  ports:
+    - protocol: TCP
+      port: 9702
+  type: LoadBalancer

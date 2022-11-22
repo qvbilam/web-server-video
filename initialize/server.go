@@ -29,8 +29,8 @@ func InitServer() {
 			port: global.ServerConfig.UserServerConfig.Port,
 		},
 		videoDialConfig: &dialConfig{
-			host: global.ServerConfig.VideoServerClient.Host,
-			port: global.ServerConfig.VideoServerClient.Port,
+			host: global.ServerConfig.VideoServerConfig.Host,
+			port: global.ServerConfig.VideoServerConfig.Port,
 		},
 	}
 
@@ -56,7 +56,7 @@ func (s *serverClientConfig) initVideoServer() {
 		grpc.WithInsecure(),
 		grpc.WithUnaryInterceptor(retry.UnaryClientInterceptor(opts...)))
 	if err != nil {
-		zap.S().Fatalf("%s dial error: %s", global.ServerConfig.VideoServerClient.Name, err)
+		zap.S().Fatalf("%s dial error: %s", global.ServerConfig.VideoServerConfig.Name, err)
 	}
 
 	// 分类

@@ -1,0 +1,74 @@
+# video.deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: video-web-server
+  labels:
+    app: video-web-server
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: video-web-server
+  template:
+    metadata:
+      labels:
+        app: video-web-server
+    spec:
+      containers:
+        - name: video-server
+          image: registry.cn-hangzhou.aliyuncs.com/qvbilam/video-web-server:1.0.0
+          # 不存在拉取
+          # imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
+          ports: # 容器内部使用端口
+            - containerPort: 9501
+          env:
+            # 服务配置
+            - name: SERVER_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: server_name
+                  name: video-web
+
+            # 用户服务
+            - name: USER-SERVER_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: user-server_name
+                  name: video-web
+            - name: USER-SERVER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: user-server_host
+                  name: video-web
+            - name: USER-SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: user-server_port
+                  name: video-web
+
+            # 视频服务
+            - name: VIDEO-SERVER_NAME
+              valueFrom:
+                configMapKeyRef:
+                  key: video-server_name
+                  name: video-web
+            - name: VIDEO-SERVER_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: video-server_host
+                  name: video-web
+            - name: VIDEO-SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: video-server_port
+                  name: video-web
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+      imagePullSecrets:
+        - name: ali-image-key

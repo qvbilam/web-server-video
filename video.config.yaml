@@ -1,0 +1,19 @@
+apiVersion: "v1"
+kind: ConfigMap
+metadata:
+  name: video-web
+  labels:
+    app: video-web
+data:
+  # 服务配置
+  server_name: video-web-server
+
+    # 用户服务配置
+  user-server_host: docker.for.mac.host.internal
+  user-server_port: "9801"
+  user-server_name: user-server
+
+    # 用户服务配置
+  video-server_host: docker.for.mac.host.internal
+  video-server_port: "9802"
+  video-server_name: video-server
