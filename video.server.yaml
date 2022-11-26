@@ -6,6 +6,8 @@ spec:
   selector:
     app: video-web-server
   ports:
-    - protocol: TCP
+    - name: http-video-web-server
+      protocol: TCP
       port: 9702
+      targetPort: 9501
   type: LoadBalancer
